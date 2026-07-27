@@ -45,6 +45,20 @@ app.get('/tasks/:id', (req, res) => {
   res.status(404).json({ "error": `Task ${id} not found` });
 });
 
+app.post('/tasks', (req, res) => {
+  if(!req.body.title || req.body.title.trim() === "") {
+    res.status(400).json({ "error": "Task title is required" });
+    return;
+  }
+  const newTask = {
+    id: tasks.length + 1,
+    title: req.body.title,
+    done: false
+  }
+  tasks.push(newTask);
+  res.status(201).json(newTask);
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
